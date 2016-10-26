@@ -3,6 +3,15 @@
 
 # --- !Ups
 
+create table task (
+  id                            bigint not null,
+  name                          varchar(255),
+  done                          boolean,
+  due_date                      timestamp,
+  constraint pk_task primary key (id)
+);
+create sequence task_seq;
+
 create table my_user (
   id                            bigint not null,
   firstname                     varchar(255),
@@ -15,6 +24,9 @@ create sequence my_user_seq;
 
 
 # --- !Downs
+
+drop table if exists task;
+drop sequence if exists task_seq;
 
 drop table if exists my_user;
 drop sequence if exists my_user_seq;

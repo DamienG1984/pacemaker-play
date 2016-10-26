@@ -3,11 +3,9 @@ package models;
 import java.util.List;
 
 import javax.persistence.*;
-
 import com.avaje.ebean.Model;
 import play.data.format.*;
 import play.data.validation.*;
-
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import com.google.common.base.Objects;

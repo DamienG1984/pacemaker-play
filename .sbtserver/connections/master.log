@@ -1,0 +1,37 @@
+New log file opened at Wed Oct 26 21:49:01 BST 2016 by 7260@Siobhan-Surface
+Taking next connection to: 65518
+New client attempting to connect on port: 65519-65518
+  Address = /192.168.0.27:65518
+This client on port 65519 has uuid 6331a119-d401-4324-bb9a-64b3f7a64d8d configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-6331a119-d401-4324-bb9a-64b3f7a64d8d
+Taking next connection to: 65518
+New client attempting to connect on port: 65520-65518
+  Address = /192.168.0.27:65518
+Handshake exception on socket: 65520
+sbt.impl.ipc.HandshakeException: Unable to perform handshake
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:46)
+	at sbt.impl.ipc.MultiClientServer.<init>(IPC.scala:150)
+	at sbt.server.SbtServerSocketHandler$$anon$1.run(SbtServerSocketHandler.scala:43)
+Caused by: java.net.SocketException: Software caused connection abort: recv failed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:170)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readInt(DataInputStream.java:387)
+	at sbt.impl.ipc.Peer.receive(IPC.scala:95)
+	at sbt.impl.ipc.Peer.handshake(IPC.scala:49)
+	... 2 more
+Taking next connection to: 65518
+New client attempting to connect on port: 65521-65518
+  Address = /192.168.0.27:65518
+This client on port 65521 has uuid c1d47b1e-3367-4d4b-b6bb-52bdd7fc962f configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-6331a119-d401-4324-bb9a-64b3f7a64d8d, activator-c1d47b1e-3367-4d4b-b6bb-52bdd7fc962f
+Taking next connection to: 65518
+Checking to see if clients are empty...
+No non-daemon clients connected after 3 min. Shutting down.
+Server socket thread exiting.
+0 clients open, will close them...
+All client sockets have been closed.
+Closing the 7260@Siobhan-Surface logs at Wed Oct 26 21:52:02 BST 2016, goodbye.
