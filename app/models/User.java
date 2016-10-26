@@ -1,0 +1,98 @@
+package models;
+
+import java.util.List;
+
+import javax.persistence.*;
+
+import com.avaje.ebean.Model;
+import play.data.format.*;
+import play.data.validation.*;
+
+
+import static com.google.common.base.MoreObjects.toStringHelper;
+import com.google.common.base.Objects;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name="my_user")
+public class User extends Model
+{
+  @Id
+  @GeneratedValue
+  public Long   id;
+  public String firstname;
+  public String lastname;
+  public String email;
+  public String password;
+  public static Model.Finder<String, User> find = new Model.Finder<String, User>(String.class, User.class);
+
+  public User()
+  {
+  }
+
+  public User(String firstname, String lastname, String email, String password)
+  {
+    this.firstname = firstname;
+    this.lastname  = lastname;
+    this.email     = email;
+    this.password  = password;
+  }
+
+  public void update (User user)
+  {
+    this.firstname = user.firstname;
+    this.lastname  = user.lastname;
+    this.email     = user.email;
+    this.password  = user.password;
+  }
+
+  public String toString()
+  {
+    return toStringHelper(this)
+        .add("Id", id)
+        .add("Firstname", firstname)
+        .add("Lastname", lastname)
+        .add("Email", email)
+        .add("Passwrod", password).toString();
+  }
+
+  @Override
+  public boolean equals(final Object obj)
+  {
+    if (obj instanceof User)
+    {
+      final User other = (User) obj;
+      return Objects.equal(firstname, other.firstname) 
+          && Objects.equal(lastname, other.lastname)
+          && Objects.equal(email, other.email);
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public static User findByEmail(String email)
+  {
+    return  User.find.where().eq("email", email).findUnique();
+  }
+
+  public static User findById(Long id)
+  {
+    return find.where().eq("id", id).findUnique();
+  }
+
+  public static List<User> findAll()
+  {
+    return find.all();
+  }
+
+  public static void deleteAll()
+  {
+    for (User user: User.findAll())
+    {
+      user.delete();
+    }
+  } 
+
+}
