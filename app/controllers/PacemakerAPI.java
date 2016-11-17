@@ -2,9 +2,7 @@ package controllers;
 
 import static parsers.JsonParser.*;
 import play.mvc.*;
-
 import java.util.*;
-
 import models.*;
 
 public class PacemakerAPI extends Controller

@@ -1,16 +1,12 @@
 package models;
 
 import java.util.List;
-
-import javax.persistence.*;
-import com.avaje.ebean.Model;
-import play.data.format.*;
-import play.data.validation.*;
-
 import static com.google.common.base.MoreObjects.toStringHelper;
 import com.google.common.base.Objects;
 
-@SuppressWarnings("serial")
+import javax.persistence.*;
+import com.avaje.ebean.Model;
+
 @Entity
 @Table(name="my_user")
 public class User extends Model
@@ -22,7 +18,7 @@ public class User extends Model
   public String lastname;
   public String email;
   public String password;
-  public static Model.Finder<String, User> find = new Model.Finder<String, User>(String.class, User.class);
+  public static Find<String, User> find = new Find<String, User>(){};
 
   public User()
   {
