@@ -1,0 +1,36 @@
+@(activities: List[Activity])
+
+@main("Welcome to Pacemaker") {
+@dashboard_menu()
+
+  <section class="ui raised segment">
+    <div class="ui grid">
+      <aside class="six wide column">
+        <img src="@routes.Assets.at("images/pacemaker.jpg")" class="ui medium image">
+      </aside>
+      <article class="eight wide column">
+        <h3> <class="ui header"> Activities </h3>
+        <table class="ui inverted grey table segment">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Distance</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+  		      @for(i <- 0 until activities.size) {
+  		        <tr>
+                <td> <a href="/dashboard/editActivity/@activities(i).id"> @activities(i).atype</a></td> 
+  		          <td> @activities(i).location </td> 
+  		          <td> @activities(i).distance </td> 
+                <td> <a href="/dashboard/delete/@activities(i).id"><i class="red remove icon"></i></a></td>
+  		        </tr>
+  		        }
+  		  </tbody>
+        </table>
+      </article>
+    </div>
+  </section>
+}

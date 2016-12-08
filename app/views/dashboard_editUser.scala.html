@@ -1,0 +1,39 @@
+@(user : User)
+
+@main("Edit User Details") {
+@dashboard_menu()
+
+  <section class="ui raised segment">
+    <div class="ui grid">
+      <aside class="six wide column">
+        <img src="@routes.Assets.at("images/pacemaker.jpg")" class="ui medium image">
+      </aside>
+      <article class="eight wide column">
+        <h3> <class="ui header"> Edit My Details </h3>
+      <form action="/dashboard/edituser/submit">
+        <div class="ui form segment">
+          <div class="two fields">
+            <div class="field">
+              <label>First Name</label>
+              <input value= @user.firstname type="text" name="firstname" required>
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input value= @user.lastname type="text" name="lastname" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input value= @user.email type="email" name="email" required>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input value= @user.password type="password" name="password" required>
+          </div>
+        </div>
+          <button class="ui green submit button"> Save </button>
+         </form>
+      </article>
+    </div>
+  </section>
+}

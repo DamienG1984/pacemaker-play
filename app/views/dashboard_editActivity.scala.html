@@ -1,0 +1,36 @@
+@(activity : Activity)
+
+@main("Edit Activity") {
+@dashboard_menu()
+
+  <section class="ui raised segment">
+    <div class="ui grid">
+      <aside class="six wide column">
+        <img src="@routes.Assets.at("images/pacemaker.jpg")" class="ui medium image">
+      </aside>
+      <article class="eight wide column">
+        <h3> <class="ui header">Edit Activity</h3>
+      <form action="/dashboard/editactivity/submit" method ="PUT">
+        <div class="ui form segment">
+ 
+            <div class="field">
+              <label><h3>Type</h3></label>
+              <input value= @activity.atype type="text" name="atype" required>
+            </div>
+            <div class="field">
+            <label><h3>Location</h3></label>
+            <input value= @activity.location type="text" name="location" required>
+          </div>
+            <div class="field">
+              <label><h3>Distance</h3></label>
+              <input value= @activity.distance type="number" name="distance" required>
+            </div>
+            <div class="field">
+              <input value= @activity.id type="long" name="id" hidden>
+            </div>
+           <button class="ui green submit button" type="submit" name="action" value="update"> Save </button>
+         </form>
+      </article>
+    </div>
+  </section>
+}

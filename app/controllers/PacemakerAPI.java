@@ -7,8 +7,9 @@ import models.*;
 
 public class PacemakerAPI extends Controller
 {  
-  
-  public Result  users()
+  //user methods
+	  
+  public Result users()
   {
     List<User> users = User.findAll();
     return ok(renderUser(users));
@@ -58,4 +59,98 @@ public class PacemakerAPI extends Controller
     }
     return result;
   }
+ 
+  //activity methods
+  
+  public Result activities (Long userId)
+  {  
+    User user = User.findById(userId);
+    return ok(renderActivity(user.activities));
+  }
+   
+  public Result createActivity (Long userId)
+  { 
+    User     user     = User.findById(userId);
+    Activity activity = renderActivity(request().body().asJson().toString());  
+    
+    user.activities.add(activity);
+    user.save();
+    
+    return ok(renderActivity(activity));
+  }
+  
+  public Result activity (Long userId, Long activityId)
+  {  
+    User     user     = User.findById(userId);
+    Activity activity = Activity.findById(activityId);
+    
+    if (activity == null)
+    {
+      return notFound();
+    }
+    else
+    {
+      return user.activities.contains(activity)? ok(renderActivity(activity)): badRequest();
+    }
+  }  
+  
+  public Result deleteActivity (Long userId, Long activityId)
+  {  
+    User     user     = User.findById(userId);
+    Activity activity = Activity.findById(activityId);
+ 
+    if (activity == null)
+    {
+      return notFound();
+    }
+    else
+    {
+      if (user.activities.contains(activity))
+      {
+        user.activities.remove(activity);
+        activity.delete();
+        user.save();
+        return ok();
+      }
+      else
+      {
+        return badRequest();
+      }
+
+    }
+  }  
+  
+  public Result updateActivity (Long userId, Long activityId)
+  {
+    User     user     = User.findById(userId);
+    Activity activity = Activity.findById(activityId);
+    
+    if (activity == null)
+    {
+      return notFound();
+    }
+    else
+    {
+      if (user.activities.contains(activity))
+      {
+    	  Activity updatedActivity = renderActivity(request().body().asJson().toString());
+          //activity.distance = updatedActivity.distance;
+          //activity.location = updatedActivity.location;
+          //activity.atype     = updatedActivity.atype;
+          
+         // result = ok(renderUser(user));
+          
+          activity.update(updatedActivity);
+          activity.save();
+          //user.activities.update(activity);
+          //user.save();
+          return ok(renderActivity(updatedActivity));
+      }
+      else
+      {
+        return badRequest();
+      }
+    }
+  }   
+  
 }

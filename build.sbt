@@ -14,5 +14,4 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
   "net.sf.flexjson" % "flexjson" % "3.3")
 
-
 fork in run := true

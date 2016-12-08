@@ -2,22 +2,44 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
-GET     /api/users                  controllers.PacemakerAPI.users()
-DELETE  /api/users                  controllers.PacemakerAPI.deleteAllUsers()
-POST    /api/users                  controllers.PacemakerAPI.createUser()
+# UI
 
-GET    /api/users/:id               controllers.PacemakerAPI.user(id: Long)
-DELETE /api/users/:id               controllers.PacemakerAPI.deleteUser(id: Long)
-PUT    /api/users/:id               controllers.PacemakerAPI.updateUser(id: Long)
+GET     /                                          controllers.Accounts.index()
+GET     /signup                                    controllers.Accounts.signup()
+GET     /login                                     controllers.Accounts.login()
+GET     /logout                                    controllers.Accounts.logout()
+POST    /register                                  controllers.Accounts.register()
+POST    /authenticate                              controllers.Accounts.authenticate()
+GET		/dashboard/details						   controllers.Accounts.viewUserDetails()
+GET		/dashboard/edituser						   controllers.Accounts.editUserDetails()
+PUT 	/dashboard/edituser/submit				   controllers.Accounts.submitUserDetails()
+GET 	/dashboard/edituser/submit				   controllers.Accounts.submitUserDetails()
 
+GET     /dashboard                                 controllers.Dashboard.index()
+GET     /upload                                    controllers.Dashboard.uploadActivityForm()
+POST    /submitactivity                            controllers.Dashboard.submitActivity()
+GET	    /dashboard/editActivity/:activityId		   controllers.Dashboard.editActivityDetails(activityId : Long)
+PUT     /dashboard/editactivity/submit             controllers.Dashboard.updateActivityDetails()
+GET     /dashboard/editactivity/submit             controllers.Dashboard.updateActivityDetails()
+DELETE  /dashboard/delete/:activityId			   controllers.Dashboard.deleteActivity(activityId : Long)
+GET     /dashboard/delete/:activityId			   controllers.Dashboard.deleteActivity(activityId : Long)
 
+# API
 
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
+GET     /api/users                                 controllers.PacemakerAPI.users()
+DELETE  /api/users                                 controllers.PacemakerAPI.deleteAllUsers()
+POST    /api/users                                 controllers.PacemakerAPI.createUser()
+
+GET    /api/users/:id                              controllers.PacemakerAPI.user(id: Long)
+DELETE /api/users/:id                              controllers.PacemakerAPI.deleteUser(id: Long)
+PUT    /api/users/:id                              controllers.PacemakerAPI.updateUser(id: Long)
+
+GET     /api/users/:userId/activities              controllers.PacemakerAPI.activities(userId: Long)
+POST    /api/users/:userId/activities              controllers.PacemakerAPI.createActivity(userId: Long)
+
+GET     /api/users/:userId/activities/:activityId  controllers.PacemakerAPI.activity(userId: Long, activityId:Long)
+DELETE  /api/users/:userId/activities/:activityId  controllers.PacemakerAPI.deleteActivity(userId: Long, activityId:Long)
+PUT     /api/users/:userId/activities/:activityId  controllers.PacemakerAPI.updateActivity(userId: Long, activityId:Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
