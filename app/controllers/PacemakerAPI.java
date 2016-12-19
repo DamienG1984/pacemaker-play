@@ -153,4 +153,64 @@ public class PacemakerAPI extends Controller
     }
   }   
   
+// friend methods
+  
+  public Result friends (Long userId)
+  {  
+    User user = User.findById(userId);
+    return ok(renderFriends(user.friends));
+  }
+   
+  public Result createFriend (Long userId)
+  { 
+    User     user     = User.findById(userId);
+    Friends friend 	  = renderFriends(request().body().asJson().toString());  
+    
+    user.friends.add(friend);
+    user.save();
+    
+    return ok(renderFriends(friend));
+  }
+  
+  public Result friend (Long userId, Long friendId)
+  {  
+    User     user     = User.findById(userId);
+    Friends friend = Friends.findById(friendId);
+    
+    if (friend == null)
+    {
+      return notFound();
+    }
+    else
+    {
+      return user.friends.contains(friend)? ok(renderFriends(friend)): badRequest();
+    }
+  }  
+  
+  public Result deleteFriend (Long userId, Long friendId)
+  {  
+    User     user     = User.findById(userId);
+    Friends  friend = Friends.findById(friendId);
+ 
+    if (friend == null)
+    {
+      return notFound();
+    }
+    else
+    {
+      if (user.friends.contains(friend))
+      {
+        user.friends.remove(friend);
+        friend.delete();
+        user.save();
+        return ok();
+      }
+      else
+      {
+        return badRequest();
+      }
+
+    }
+  }  
+  
 }

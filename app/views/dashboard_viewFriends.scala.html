@@ -1,6 +1,6 @@
-@(user : User)
+@(friends: List[Friends])
 
-@main("My Details") {
+@main("Welcome to Pacemaker") {
 @dashboard_menu()
 
   <section class="ui raised segment">
@@ -9,28 +9,29 @@
         <img src="@routes.Assets.at("images/watch.jpg")" class="ui medium image">
       </aside>
       <article class="eight wide column">
-        <h3> <class="ui header"> User Details </h3>
+        <h3> <class="ui header"> Friends </h3>
         <table class="ui inverted grey table segment">
           <thead>
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
-              <th>Password</th>
             </tr>
           </thead>
           
           <tbody>
+  		      @for(i <- 0 until friends.size) {
   		        <tr>
-                <td> @user.firstname</td> 
-  		          <td> @user.lastname</td> 
-  		          <td> @user.email</td> 
-                <td style="display:none;"> @user.password</td>
+                <td> <a href="/dashboard/firends/activies/@friends(i).email">@friends(i).firstname</a></td> 
+  		          <td> @friends(i).lastname </td> 
+  		          <td> @friends(i).email </td> 
+                <td> <a href="/dashboard/delete/friend/@friends(i).id"><i class="red remove icon"></i></a></td>
   		        </tr>
+  		        }
   		  </tbody>
         </table>
-        <form action="/dashboard/edituser" method="GET">
-          <button class="ui red submit button"> Edit </button>
+        <form action="/dashboard/findFriends" method="GET">
+          <button class="ui blue submit button"> Find Friends </button>
          </form>
       </article>
     </div>

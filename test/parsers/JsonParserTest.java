@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import org.junit.Test;
 
 import models.Activity;
+import models.Friends;
 import models.User;
 import play.test.WithApplication;
 
@@ -27,7 +28,8 @@ public class JsonParserTest extends WithApplication{
 	    assertThat(jsonReturned, containsString("jim@simpson.com"));
 	    assertThat(jsonReturned, containsString("Jim"));
 	    assertThat(jsonReturned, containsString("Simpson"));
-	    assertThat(jsonReturned, containsString("secret"));
+	    //Turned off this test due to password been hashed. Password creation was successful in user test
+	    //assertThat(jsonReturned, containsString("secret"));
 	 
 	    // Test the String returned from the parse re-renders into user object format
 	    assertThat(joesoap, equalTo(JsonParser.renderUser(jsonReturned)));    
@@ -58,6 +60,33 @@ public class JsonParserTest extends WithApplication{
 	  	 
 	    // Test the String returned from the parse re-renders into activity object format
 	    assertThat(activity, equalTo(JsonParser.renderActivity(jsonReturned)));    
+	}
+	
+	@Test
+	public void friendConvertsToJsonStringAndBackAgain() {		
+		// Create a new user and save it in the database
+	    new User("Jim", "Simpson", "jim@simpson.com", "secret").save();
+	    
+	    // Retrieve the user we just added by their email address
+	    User joesoap = User.findByEmail("jim@simpson.com");
+	    
+	    // Create a new activity and save it in the database
+	    joesoap.friends.add(new Friends("Bob", "Murphy", "bob@murphy.com"));
+		joesoap.save();
+		
+	    // Retrieve the friend we just added; id should be 1
+		Friends friend = Friends.findById(1l);
+	    
+	    //Test the parsing of the Activity into a String
+	    String jsonReturned = JsonParser.renderFriends(friend);
+	    
+	    // Test the String returned from the parse contains some activity data
+	    assertNotNull(jsonReturned);
+	    assertThat(jsonReturned, containsString("Bob"));
+	    assertThat(jsonReturned, containsString("Murphy"));
+	  	 
+	    // Test the String returned from the parse re-renders into activity object format
+	    assertThat(friend, equalTo(JsonParser.renderFriends(jsonReturned)));    
 	}
 }	
 

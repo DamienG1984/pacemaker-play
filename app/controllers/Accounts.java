@@ -3,6 +3,7 @@ package controllers;
 import javax.inject.Inject;
 
 import models.User;
+import passwordHash.BCrypt;
 import play.*;
 import play.mvc.*;
 
@@ -64,9 +65,11 @@ public class Accounts extends Controller
     else
     {
         User user = boundForm.get();
-	      Logger.info ("User = " + user.toString());
-	      user.save();
-	      return ok(welcome_main.render());
+        //hash password
+        user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+	    //Logger.info ("User = " + user.toString());
+	    user.save();
+	    return ok(welcome_main.render());
     }
   }
 
@@ -74,19 +77,24 @@ public class Accounts extends Controller
   {
 	Form<User> boundForm = loginForm.bindFromRequest();
 	
+	User user = loginForm.bindFromRequest().get();
+	
 	User luser = User.findByEmail(boundForm.get().email);
 	
-	//if(loginForm.hasErrors()) 
-	if (luser.email.equals(boundForm.get().email) && luser.password.equals(boundForm.get().password))
-    {
-		session("email", boundForm.get().email);
-	       return redirect(routes.Dashboard.index());
-    } 
-    else 
-    {	 
-    	Logger.info("Invalid Login Deatils, Please try again");
-       return badRequest(accounts_login.render());
-    }
+	Logger.info(user.password);
+	
+	//check if pre loaded user passwords match or hash passwords match
+		if (luser.email.equals(boundForm.get().email) && luser.password.equals(boundForm.get().password) ||
+			(luser.email.equals(boundForm.get().email) && BCrypt.checkpw(boundForm.get().password, luser.password)))
+		{
+			session("email", boundForm.get().email);
+		    return redirect(routes.Dashboard.index());
+		}
+		else 
+		{	 
+			Logger.info("Invalid Login Deatils, Please try again");
+		   return badRequest(accounts_login.render());
+		}
   }
   
   public Result viewUserDetails()
@@ -115,10 +123,22 @@ public class Accounts extends Controller
 	    
 	    String email = session().get("email");
 	    User user1 = User.findByEmail(email);
-	    
+	   
+	    //check if password was updated, if not then save user
+	    if (user1.password.equals(user.password))
+	    {
+	    	user1.update(user);
+		    user1.save();
+		    return ok (dashboard_viewUser.render(user1));
+	    }
+	    else
+	    {
+	    //if password was updated, hash new password
+	    //user1.password = BCrypt.hashpw(user1.password, BCrypt.gensalt());
 	    user1.update(user);
 	    user1.save();
-	    return ok (dashboard_viewUser.render(user));
+	    return ok (dashboard_viewUser.render(user1));
+	    }
 
   }
   

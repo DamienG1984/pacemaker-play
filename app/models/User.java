@@ -5,6 +5,8 @@ import java.util.List;
 import static com.google.common.base.MoreObjects.toStringHelper;
 import com.google.common.base.Objects;
 
+import passwordHash.BCrypt;
+
 import javax.persistence.*;
 import com.avaje.ebean.Model;
 
@@ -22,6 +24,9 @@ public class User extends Model
   
   @OneToMany(cascade=CascadeType.ALL)
   public List<Activity> activities = new ArrayList<Activity>();
+  
+  @OneToMany(cascade=CascadeType.ALL)
+  public List<Friends> friends = new ArrayList<Friends>();
 
   public static Find<String, User> find = new Find<String, User>(){};
 
@@ -34,17 +39,28 @@ public class User extends Model
     this.firstname = firstname;
     this.lastname  = lastname;
     this.email     = email;
-    this.password  = password;
-  }
+    this.password  = BCrypt.hashpw(password, BCrypt.gensalt());
+  }  
 
   public void update (User user)
   {
     this.firstname = user.firstname;
     this.lastname  = user.lastname;
     this.email     = user.email;
-    this.password  = user.password;
+    //chcek if password was updated
+    //if not we dont need to hash a second time
+    User user1 = findByEmail(email);
+    if (user1.password.equals(user.password))
+    {
+    	this.password = user.password;
+    }
+    else
+    {
+    	this.password  = BCrypt.hashpw(user.password, BCrypt.gensalt());
+    }
+    
   }
-
+  
   public String toString()
   {
     return toStringHelper(this)

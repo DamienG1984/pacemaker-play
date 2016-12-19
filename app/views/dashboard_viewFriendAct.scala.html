@@ -22,10 +22,9 @@
           <tbody>
   		      @for(i <- 0 until activities.size) {
   		        <tr>
-                <td> <a href="/dashboard/editActivity/@activities(i).id"> @activities(i).atype</a></td> 
+                <td> @activities(i).atype</td> 
   		          <td> @activities(i).location </td> 
   		          <td> @activities(i).distance </td> 
-                <td> <a href="/dashboard/delete/@activities(i).id"><i class="red remove icon"></i></a></td>
   		        </tr>
   		        }
   		  </tbody>

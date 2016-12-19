@@ -24,6 +24,14 @@ GET     /dashboard/editactivity/submit             controllers.Dashboard.updateA
 DELETE  /dashboard/delete/:activityId			   controllers.Dashboard.deleteActivity(activityId : Long)
 GET     /dashboard/delete/:activityId			   controllers.Dashboard.deleteActivity(activityId : Long)
 
+GET 	/dashboard/friends						   controllers.FriendsDashboard.viewFriends()
+GET 	/dashboard/findFriends					   controllers.FriendsDashboard.findFriends()
+POST	/dashboard/addFriend/:friendsId			   controllers.FriendsDashboard.addFriend(friendsId : Long)
+GET		/dashboard/addFriend/:friendsId			   controllers.FriendsDashboard.addFriend(friendsId : Long)
+DELETE	/dashboard/delete/friend/:friendsId		   controllers.FriendsDashboard.deleteFriend(friendsId : Long)
+GET		/dashboard/delete/friend/:friendsId		   controllers.FriendsDashboard.deleteFriend(friendsId : Long)
+GET		/dashboard/firends/activies/:email  	   controllers.FriendsDashboard.viewFriendActivity(email : String)
+
 # API
 
 GET     /api/users                                 controllers.PacemakerAPI.users()
@@ -40,6 +48,12 @@ POST    /api/users/:userId/activities              controllers.PacemakerAPI.crea
 GET     /api/users/:userId/activities/:activityId  controllers.PacemakerAPI.activity(userId: Long, activityId:Long)
 DELETE  /api/users/:userId/activities/:activityId  controllers.PacemakerAPI.deleteActivity(userId: Long, activityId:Long)
 PUT     /api/users/:userId/activities/:activityId  controllers.PacemakerAPI.updateActivity(userId: Long, activityId:Long)
+
+GET 	/api/users/:userId/viewFriends			   controllers.PacemakerAPI.friends(userId : Long)
+POST	/api/users/:userId/addFriend			   controllers.PacemakerAPI.createFriend(userId : Long)
+
+GET 	/api/users/:userId/friend/:friendsId	   controllers.PacemakerAPI.friend(userId : Long, friendsId : Long)
+DELETE	/api/users/:userId/friend/:friendsId	   controllers.PacemakerAPI.deleteFriend(userId : Long, friendsId : Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
